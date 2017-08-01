@@ -12,6 +12,26 @@ if(isset($_POST['submit'])){
 		
 	}
 }
+$query="	SELECT 		name,surname,2017 - year(birthday) as 'age',university
+			FROM 		UNIVERSITY";
+$result=mysqli_query($dbc,$query);
+if(mysqli_num_rows($result) > 0)
+{
+	while($rows=mysqli_fetch_array($result,MYSQLI_ASSOC))
+	{
+		$name[] = $rows['name'];
+		$surname[] = $rows['surname'];
+		$age[] = $rows['age'];
+		$university[] = $rows['university'];
+	}
+}
+else 
+{
+	$name = [];
+	$surname = [];
+	$age = [];
+	$university = [];
+}
 ?>
 
 <html lang="en">
@@ -63,30 +83,37 @@ if(isset($_POST['submit'])){
     </div>
 	
     <!-- insert page content here -->
-	<div class="container col-md-4 col-md-offset-4">
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="form-horizontal form-label-left">
-	<div align="center" class="col-md-4">
-	DLSU: <input type="checkbox" name="check[]" value="De La Salle University"/>
-	LPU: <input type="checkbox" name="check[]" value="Lyceum of the Philippines University"/>
-	ADMU: <input type="checkbox" name="check[]" value="Ateneo De Manila University"/>
-	UP: <input type="checkbox" name="check[]" value="University of the Philippines"/>
-	UST: <input type="checkbox" name="check[]" value="University of Santo Tomas"/>
-	MIT: <input type="checkbox" name="check[]" value="Mapua Institute of Technology"/>
-	STI: <input type="checkbox" name="check[]" value="Systems Technology Institute"/>
+	<div class="col-md-6">
+		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="form-horizontal form-label-left">
+			<div align="right" class="col-md-6">
+				ADMU: <input type="checkbox" name="check[]" value="Ateneo De Manila University"/><br>
+				DLSU: <input type="checkbox" name="check[]" value="De La Salle University"/><br>
+				LPU: <input type="checkbox" name="check[]" value="Lyceum of the Philippines University"/><br>
+				UST: <input type="checkbox" name="check[]" value="University of Santo Tomas"/><br>
+				MIT: <input type="checkbox" name="check[]" value="Mapua Institute of Technology"/><br>
+				STI: <input type="checkbox" name="check[]" value="Systems Technology Institute"/><br>
+				UP: <input type="checkbox" name="check[]" value="University of the Philippines"/>
+			</div>
+			<br>
+			<div align="center" class="col-md-3">
+				Age Start: <input type="number" name="ageStart">
+				Age End: <input type="number" name="ageEnd">
+				<br>
+				<input type="submit" name="submit">
+			</div>
+		</form>
 	</div>
 	<br>
-	<div align="center" class="col-md-3">
-	Age Start: <input type="number" name="ageStart">
-	Age End: <input type="number" name="ageEnd">
-	<br>
-	<input type="submit" name="submit">
-	</div>
-	</form>
-	</div>
-	
-	<div>
+	<div class="row col-md-6">
 	
 	<table id="datatable-responsive" class="table table-hover table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+					    <thead>
+				        <tr>
+				        <th>Name</th>
+				        <th>University Count</th>
+				        </tr>
+						</thead>
+						<tbody>
 						<tr>
 						<td width="50%"><div align="center"><b>DLSU
 						</div></b></td>
@@ -165,6 +192,34 @@ if(isset($_POST['submit'])){
 																		echo $row['c'];?>
 						</div></b></td>
 						</tr>
+						</tbody>
+		</table>
+	</div>
+	<div class="col-md-12">
+	<table id="example" class="table table-bordered table-hover table-striped">
+	 <thead>
+			<tr>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Age</th>
+				<th>University</th>
+			</tr>
+			</thead>
+			<tbody>				
+				<?php 					
+					 for($i=0;$i<count($name);$i++)
+					{	
+					echo "<tr>
+						<td>$name[$i]</td>	                            	
+						<td>$surname[$i]</td>
+						<td>$age[$i]</td>
+						<td>$university[$i]</td>
+						</tr>";
+					}																								   					
+				?> 
+		</tbody>
+	</table>
+	</div>
 	</div>
 	
 	
